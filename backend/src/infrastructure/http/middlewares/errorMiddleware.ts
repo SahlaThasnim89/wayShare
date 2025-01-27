@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import { AppError } from "../../../shared/errors/AppError"
+import { AppError } from "../../../shared/constants/errors" 
 
 
 const notFound=(req:Request,res:Response,next:NextFunction):void=>{

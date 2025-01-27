@@ -7,4 +7,3 @@ export const environment={
     database:process.env.MONGO_URI as string,
     jwtSecret:process.env.JWT_SECRET||'secret'
 }
-

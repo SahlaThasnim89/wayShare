@@ -1,43 +1,53 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Image from "../assets/login-img.png";
 import { Header, Footer, InputField, GreenButton } from "../components/index";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "@/lib/types";
-import {zodResolver} from '@hookform/resolvers/zod'
-import { toast } from "sonner"
-import axios from 'axios'
-import { unknown } from "zod";
-
-
-
-
-
-
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import axios from "axios";
+import { login,selectUser } from "../features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const Register = () => {
-  const{register,handleSubmit,formState:{errors},
-}=useForm({resolver:zodResolver(registerSchema)})
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(registerSchema) });
 
- 
 
-const onSubmit=async(data:any)=>{
-  try {
-    console.log(data)
-    const res=await axios.post('/api/register',data)
-    toast('Registration successful',res.data)
-  } catch (error:any) {
-    console.log(error.message)
-  }
-}
+  const user=useSelector(selectUser)
+  const navigate=useNavigate()
 
-const errhandler=(e:unknown)=>{
-  const error=e as {message:string}[];
-  Object.values(error).reverse().forEach((err)=>{
-      console.log(err.message)
-      toast(err.message)
-  })
-}
+  useEffect(()=>{
+    if(user){
+      navigate('/')
+    }
+  },[navigate,user])
 
+  const dispatch=useDispatch()
+
+  const onSubmit = async (data: any) => {
+    try {
+      console.log(data);
+      const res = await axios.post("/api/register", data);
+      toast("Registration successful", res.data);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
+  const errhandler = (e: unknown) => {
+    const error = e as { message: string }[];
+    Object.values(error)
+      .reverse()
+      .forEach((err) => {
+        console.log(err.message);
+        toast(err.message);
+      });
+  };
 
   return (
     <div>
@@ -57,7 +67,10 @@ const errhandler=(e:unknown)=>{
                 <Link to="/login"> Login</Link>
               </span>
             </p>
-            <form onSubmit={handleSubmit(onSubmit,errhandler)} className="flex flex-col gap-4">
+            <form
+              onSubmit={handleSubmit(onSubmit, errhandler)}
+              className="flex flex-col gap-4"
+            >
               <InputField
                 label="Full Name"
                 type="text"
@@ -65,7 +78,6 @@ const errhandler=(e:unknown)=>{
                 placeholder="Enter your name"
                 register={register("name")}
                 className="border border-green-600 rounded px-2 py-1"
-              
               />
               <InputField
                 label="Email"
@@ -74,7 +86,6 @@ const errhandler=(e:unknown)=>{
                 placeholder="Enter your email"
                 register={register("email")}
                 className="border border-green-600 rounded px-2 py-1"
-                
               />
               <InputField
                 label="Mobile Number"
@@ -83,7 +94,6 @@ const errhandler=(e:unknown)=>{
                 register={register("mobile")}
                 placeholder="Enter mobile number"
                 className="border border-green-600 rounded px-2 py-1"
-                
               />
               <div className="flex flex-row gap-4">
                 <div>
@@ -94,7 +104,6 @@ const errhandler=(e:unknown)=>{
                     placeholder="Enter password"
                     register={register("password")}
                     className="border border-green-600 rounded px-2 py-1"
-                    
                   />
                 </div>
                 <div>
@@ -105,7 +114,6 @@ const errhandler=(e:unknown)=>{
                     placeholder="Confirm password"
                     register={register("confirmPassword")}
                     className="border border-green-600 rounded px-2 py-1"
-                    
                   />
                 </div>
               </div>

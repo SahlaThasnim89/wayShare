@@ -1,6 +1,6 @@
 import {IUser} from '../../../domain/entities/User'
 import User from './UserModel';
-import {IUserRepository} from '../../../domain/repositories/userRepository'
+import {IUserRepository} from '../../../domain/repositories/UserRepository'
 
 
 export class UserRepositoryImpl implements IUserRepository{
@@ -9,7 +9,7 @@ export class UserRepositoryImpl implements IUserRepository{
     }
 
 
-    async create(userData: IUser): Promise<IUser> {
+    async create(userData: Partial<IUser>): Promise<IUser> {
             const user=new User(userData)
             await user.save();
             return user;

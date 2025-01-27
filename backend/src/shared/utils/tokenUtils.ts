@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
-import { environment } from "../config/environment";
-import { IUser } from '../domain/entities/User;
+import { environment } from '../../config/environment';
+import { IUser } from '../../domain/entities/User';
 
 
 export const generateToken=(user:IUser):string=>{
@@ -11,4 +11,3 @@ export const generateToken=(user:IUser):string=>{
     }
     return jwt.sign(payload,environment.jwtSecret||'secret')
 }
-

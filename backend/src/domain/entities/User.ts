@@ -6,6 +6,4 @@ export interface IUser extends Document {
     password: string;
     mobile: string;
     isBlocked: boolean;
-    createdAt: Date;
-    updatedAt: Date;
 }

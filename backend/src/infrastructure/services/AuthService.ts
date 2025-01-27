@@ -1,6 +1,7 @@
-import { generateToken } from './../../utils/generateToken';
-import {IUser} from '../../domain/entities/User'
+import { generateToken } from '../../shared/utils/tokenUtils';
+import { IUser } from '../../domain/entities/User';
 import { environment } from '../../config/environment';
+import jwt from 'jsonwebtoken' 
 
 export class AuthService{
     generateToken(user:IUser):string{
