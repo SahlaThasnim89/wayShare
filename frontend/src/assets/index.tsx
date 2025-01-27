@@ -1,0 +1,12 @@
+import Location from './location.jpg'
+import LoginImg from './login-img.png'
+import HomeImg from './home-img.png'
+import Car from './car.png'
+import Charging from './charging.png'
+import money from './money.png'
+import security from './security.jpg'
+import wifi from './wifi.png'
+import Driver from './driver.png'
+import name from './name.png'
+import logo from './logo.jpg'
+export{Location,LoginImg,HomeImg,Car,Charging,money,security,wifi,Driver,name,logo}

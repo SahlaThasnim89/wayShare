@@ -1,0 +1,38 @@
+// {
+//   "compilerOptions": {
+//     "moduleResolution": "node",
+//     "baseUrl": ".",
+//     "paths": {
+//       "*": ["node_modules/*", "src/*"]
+//     },
+//     "esModuleInterop": true,
+//     "allowJs": true,
+//     "jsx": "react-tsx"
+//   },
+//   "files": [],
+//   "references": [
+//     { "path": "./tsconfig.app.json" },
+//     { "path": "./tsconfig.node.json" }
+//   ]
+// }
+
+{
+  "compilerOptions": {
+    "target": "es6",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
