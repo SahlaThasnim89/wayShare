@@ -8,7 +8,6 @@ export const registerUser=async(req:Request,res:Response)=>{
         const { name, email, password, mobile } = req.body;
         const userService=new UserServiceImpl()
         const user=await userService.registerUser( name, email, password, mobile)
-        console.log(user,'userService')
         const authService=new AuthService()
         const token =authService.generateToken(user)
 

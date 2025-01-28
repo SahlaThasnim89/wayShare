@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Image from "../assets/login-img.png";
 import { Header, Footer, InputField, GreenButton } from "../components/index";
 import { useForm } from "react-hook-form";
-import { registerSchema } from "@/lib/types";
+import { registerSchema } from "@/lib/RegisterTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import axios from "axios";
@@ -31,11 +31,11 @@ const Register = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      console.log(data);
       const res = await axios.post("/api/register", data);
-      toast("Registration successful", res.data);
+      navigate('/otp')  
     } catch (error: any) {
       console.log(error.message);
+      toast("This email is already taken, try another");
     }
   };
 

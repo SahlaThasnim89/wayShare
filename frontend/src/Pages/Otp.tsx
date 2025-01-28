@@ -1,8 +1,35 @@
 import React from "react";
 import {Header,Footer,GreenButton,InputField} from "../components/index";
 import Image from "../assets/login-img.png";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { otpSchema } from "@/lib/OtpTypes";
+
+
 
 const Otp = () => {
+  const {register,handleSubmit,formState: { errors },}=useForm({resolver:zodResolver()})
+
+
+  const onSubmit=async(data:any)=>{
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
+
+  const errhandler = (e: unknown) => {
+    const error = e as { message: string }[];
+    Object.values(error)
+      .reverse()
+      .forEach((err) => {
+        console.log(err.message);
+        toast(err.message);
+      });
+  };
+
+
   return (
     <div className="">
       <Header />
@@ -13,7 +40,7 @@ const Otp = () => {
               {" "}
               Enter OTP here
             </h1>
-            <form className="flex flex-col gap-4">
+            <form onSubmit={handleSubmit(onSubmit, errhandler)} className="flex flex-col gap-4">
               <div className="flex flex-row gap-4">
               <InputField
                   id="otp1"
