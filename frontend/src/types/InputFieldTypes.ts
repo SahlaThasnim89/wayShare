@@ -6,5 +6,7 @@ export type InputFieldProps = {
     placeholder?: string;
     required?: boolean;
     className:string;
+    value?:string;
+    onChange?:any;
   };
   

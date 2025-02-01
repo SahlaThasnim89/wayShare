@@ -13,8 +13,23 @@ import { FaClock, FaMapPin } from "react-icons/fa6";
 import { FaRegCircle, FaRegSquare } from "react-icons/fa";
 import { TfiLayoutLineSolid } from "react-icons/tfi";
 import { MdOutlineMyLocation } from "react-icons/md";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { selectUser } from "@/features/userSlice";
+import { useSelector } from "react-redux";
+
 
 const Home = () => {
+  const navigate = useNavigate();
+  const user = useSelector(selectUser);
+
+  // useEffect(()=>{
+  //   if(user){
+  //     navigate('/')
+  //   }
+  //   console.log(user)
+  // },[navigate,user])
+
   return (
     <div>
       <Header />
@@ -41,12 +56,21 @@ const Home = () => {
                 <div className="absolute top-0 bottom-10 left-5 w-px bg-white transform -translate-x-1/2" />
               </div>
               {/* Buttons */}
-              <div className="flex justify-end mt-4">
+                {user?
+                 <div className="flex justify-end mt-4">
                 <button className="bg-slate-900 px-10 py-3 text-white w:full md:w-auto">
                   Request Now
                 </button>
+                </div>
+                : <Link to="/login"><div className="flex justify-end mt-4">
+                  <button className="bg-slate-900 px-10 py-3 text-white w:full md:w-auto">
+                 Request Now
+              </button>
+
               </div>
-              <div className="w-full md:w-auto">
+              </Link>
+}
+{user?(   <div className="w-full md:w-auto">
                 <RideButton
                   label={
                     <span className="flex items-center space-x-2">
@@ -56,6 +80,21 @@ const Home = () => {
                   }
                 />
               </div>
+            ):(
+              <Link to="/login">
+            <div className="w-full md:w-auto">
+                <RideButton
+                  label={
+                    <span className="flex items-center space-x-2">
+                      <FaClock />
+                      <span className="hidden md:block">Schedule a ride</span>
+                    </span>
+                  }
+                />
+              </div>
+              </Link>
+            )}
+              
             </div>
 
             {/* Image */}
@@ -79,9 +118,13 @@ const Home = () => {
       </>
 
       {/* buttons */}
-      <>
-        <RedirectButton />
-      </>
+      {user ? (
+        <>
+          <RedirectButton />
+        </>
+      ) : (
+        <></>
+      )}
 
       {/* top three */}
       <div className="my-6 mx">

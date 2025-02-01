@@ -10,10 +10,12 @@ import RideButton from "./RideButton"
 import CountData from "./CountData"
 import RedirectButton from "./RedirectButton"
 import TopThree from './TopThree'
+import DataCards from "./DataCards"
 export {Data,Footer,GreenButton,Feature,Cards,Header,InputField,
     RideInput,
     RideButton,
     CountData, 
     RedirectButton,
-    TopThree
+    TopThree,
+    DataCards
 }

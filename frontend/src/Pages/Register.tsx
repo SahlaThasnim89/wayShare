@@ -21,17 +21,19 @@ const Register = () => {
   const user=useSelector(selectUser)
   const navigate=useNavigate()
 
-  useEffect(()=>{
-    if(user){
-      navigate('/')
-    }
-  },[navigate,user])
+  // useEffect(()=>{
+  //   if(user){
+  //     navigate('/')
+  //   }
+  // },[navigate,user])
 
   const dispatch=useDispatch()
 
   const onSubmit = async (data: any) => {
     try {
       const res = await axios.post("/api/register", data);
+      console.log(res.data)
+      localStorage.setItem("email", data.email);
       navigate('/otp')  
     } catch (error: any) {
       console.log(error.message);
@@ -76,7 +78,7 @@ const Register = () => {
                 type="text"
                 id="name"
                 placeholder="Enter your name"
-                register={register("name")}
+                {...register("name")}
                 className="border border-green-600 rounded px-2 py-1"
               />
               <InputField
@@ -84,14 +86,14 @@ const Register = () => {
                 type="email"
                 id="email"
                 placeholder="Enter your email"
-                register={register("email")}
+                {...register("email")} 
                 className="border border-green-600 rounded px-2 py-1"
               />
               <InputField
                 label="Mobile Number"
                 type="text"
                 id="mobile"
-                register={register("mobile")}
+                {...register("mobile")}
                 placeholder="Enter mobile number"
                 className="border border-green-600 rounded px-2 py-1"
               />
@@ -102,7 +104,7 @@ const Register = () => {
                     type="password"
                     id="password"
                     placeholder="Enter password"
-                    register={register("password")}
+                    {...register("password")}
                     className="border border-green-600 rounded px-2 py-1"
                   />
                 </div>
@@ -112,12 +114,11 @@ const Register = () => {
                     type="password"
                     id="c-password"
                     placeholder="Confirm password"
-                    register={register("confirmPassword")}
+                    {...register("confirmPassword")}
                     className="border border-green-600 rounded px-2 py-1"
                   />
                 </div>
               </div>
-              <p className="text-end">Forget password</p>
               <GreenButton>Register</GreenButton>
             </form>
           </div>

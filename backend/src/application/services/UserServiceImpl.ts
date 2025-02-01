@@ -6,6 +6,9 @@ import { IUser } from '../../domain/entities/User';
 import User from '../../infrastructure/database/mongoose/UserModel';
 
 export class UserServiceImpl implements IUserService{
+    findByEmail(email: string) {
+        throw new Error("Method not implemented.");
+    }
     private UserRepository:IUserRepository;
     private hashingService:passwordHashingService;
 

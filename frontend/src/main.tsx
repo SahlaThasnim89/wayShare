@@ -3,8 +3,29 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
-import { Home, Login, Register,Otp,FindARide,
-  AdminDashbrd,UserList
+import { Home, 
+  Login, 
+  Register,
+  Otp,
+  ForgetPassword,
+  ResetPassword,
+  
+  
+  FindARide,
+
+
+  DriverHome,
+  DriverApplication,
+
+  AdminLogin,
+  AdminDashbrd,
+  UserList,
+  DriversList,
+  DriverRequests,
+  DriverApplicationDetails,
+  RidesList
+
+
  } from './Pages/index';
 import { Provider } from 'react-redux';
 import {store} from './store/store.ts';
@@ -22,13 +43,32 @@ const router=createBrowserRouter(
       <Route path='/register' element={<Register/>}/>
       <Route path='/otp' element={<Otp/>}/>
       <Route path='/login' element={<Login/>}/>
+      <Route path='/forgetPassword' element={<ForgetPassword/>}/>
+      <Route path='/resetPassword' element={<ResetPassword/>}/>
+
+
+
 
 
       <Route path='/findARide' element={<FindARide/>}/>
 
+      <Route path='/driver' element={<DriverHome/>}/>
+      <Route path='/driver/applyToDrive' element={<DriverApplication/>}/>
 
-      <Route path='/dashboard' element={<AdminDashbrd/>}/>
-      <Route path='/UserList' element={<UserList/>}/>
+
+
+      <Route path='/admin/login' element={<AdminLogin/>}/>
+
+
+
+      <Route path='/admin/dashboard' element={<AdminDashbrd/>}/>
+      <Route path='/admin/UserList' element={<UserList/>}/>
+
+      <Route path='/admin/DriverList' element={<DriversList/>}/>
+      <Route path='/admin/DriverRequests' element={<DriverRequests/>}/>
+      <Route path='/admin/applicationDetails' element={<DriverApplicationDetails/>}/>
+
+      <Route path='/admin/RidesList' element={<RidesList/>}/>
 
 
     </Route>

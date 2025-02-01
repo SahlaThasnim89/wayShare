@@ -2,6 +2,7 @@ import { generateToken } from '../../shared/utils/tokenUtils';
 import { IUser } from '../../domain/entities/User';
 import { environment } from '../../config/environment';
 import jwt from 'jsonwebtoken' 
+import { Response } from 'express';
 
 export class AuthService{
     generateToken(user:IUser):string{
@@ -15,6 +16,13 @@ export class AuthService{
         } catch (error) {
             return null;
         }
+    }
+
+    logout(res:Response):void{
+        res.cookie('jwt','',{
+            httpOnly:true,
+            expires:new Date(0)
+        })
     }
 
 }

@@ -2,7 +2,12 @@ import { z } from "zod";
 
 export const registerSchema = z
   .object({
-    name: z.string().min(1, { message: "Full name is required" }),
+    name: z
+    .string()
+    .min(1, { message: "Full name is required" }) 
+    .trim() 
+    .refine((value) => value.length > 0, { message: "Full name cannot be only spaces" }), 
+
     email: z.string().email({ message: "Invalid email address" }),
     mobile: z
       .string()

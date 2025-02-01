@@ -1,8 +1,21 @@
 import { Header, Footer, GreenButton, InputField } from "../components/index";
 import Image from "../assets/login-img.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/features/userSlice";
 
 const Login = () => {
+  const user=useSelector(selectUser)
+  const navigate=useNavigate()
+
+  // useEffect(()=>{
+  //   if(user){
+  //       navigate('/')
+  //   }
+  // },[navigate,user])
+
+
   return (
     <div>
       <Header />
@@ -17,9 +30,11 @@ const Login = () => {
             </button>
             <p className="text-center">
               Don't have an acconut?{" "}
+              <Link to='/register'> 
               <span className="underline text-green-600 font-semibold">
-                <Link to='/register'> Sign Up</Link>
+                Sign Up
               </span>
+              </Link>
             </p>
             <form className="flex flex-col gap-4">
               <InputField
@@ -27,6 +42,7 @@ const Login = () => {
                 type="email"
                 id="email"
                 placeholder="Enter your email"
+                
                 className="border border-green-600 rounded px-2 py-1"
                 required
               />
@@ -38,8 +54,11 @@ const Login = () => {
                 className="border border-green-600 rounded px-2 py-1"
                 required
               />
+               <Link to='/forgetPassword'> 
+                            <p className="text-end">Forget password</p>
+                            </Link>
 
-              <GreenButton>Register</GreenButton>
+              <GreenButton>Login</GreenButton>
 
             </form>
           </div>
@@ -55,3 +74,5 @@ const Login = () => {
 };
 
 export default Login;
+
+

@@ -206,6 +206,8 @@ export function DataTableDemo() {
           }
           className="max-w-sm"
         />
+        
+        
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -232,7 +234,9 @@ export function DataTableDemo() {
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+        
       </div>
+      
       <div className="rounded-md border">
         <Table>
           <TableHeader>
