@@ -21,54 +21,50 @@ const Otp = () => {
   const navigate=useNavigate()
   const dispatch=useDispatch();
 
-  const [timeLeft,setTimeLeft]=useState(EXPIRY_TIME)
-  const [canResend,setCanResend]=useState(false)
+  const [timeLeft,setTimeLeft]=useState<number>(0)
+  const [canResend,setCanResend]=useState<boolean>(false)
 
 
-  // useEffect(()=>{
-  //   if(timeLeft>0){
-  //     const timer=setInterval(()=>{
-  //       setTimeLeft((prev)=>prev-1)
-  //     },1000)
-  //     return ()=>clearInterval(timer)
-  //   }else{
-  //     setCanResend(true)
-  //   }
-  // },[timeLeft])
+const startTimer=(expiryTime:number)=>{
+  const timer=setInterval(()=>{
+    const remains=Math.max(0,Math.floor((expiryTime-Date.now())/1000))
+    setTimeLeft(remains)
 
-  useEffect(()=>{
-    const storeExpiry=localStorage.getItem('otpExpiry')
-    const expiryTime=storeExpiry?parseInt(storeExpiry):Date.now()+EXPIRY_TIME*1000;
-    localStorage.setItem('otpExpiry',expiryTime)
+    if(remains<=0){
+      clearInterval(timer)
+      setCanResend(true)
+      localStorage.removeItem('otpExpiry')
+    }
+  },1000)
+  return ()=>clearInterval(timer)
+}
 
-    const timer=setInterval(()=>{
-      const remains=Math.max(0,Math.floor((expiryTime-Date.now())/1000))
-      setTimeLeft(remains)
-      if(remains<=0){
-        clearInterval(timer)
-        setCanResend(true)
-        localStorage.removeItem('otpExpiry')
-      }
-    },1000)
 
-    return ()=>clearInterval(timer)
-  },[])
+useEffect(()=>{
+  const storedExpiry=localStorage.getItem('otpExpiry')
+  const expiryTime=storedExpiry?parseInt(storedExpiry):Date.now()+EXPIRY_TIME*1000
 
+  localStorage.setItem('otpExpiry',expiryTime.toString())
+  setCanResend(false)
+  return startTimer(expiryTime)
+},[])
 
   const onSubmit=async(data:any)=>{
     try {
-      const otp = data.otp1+data.otp2+data.otp3+data.otp4+data.otp5+data.otp6;
+      const otp = Object.values(data).join("");
+      // const otp = data.otp1+data.otp2+data.otp3+data.otp4+data.otp5+data.otp6;
       const email = localStorage.getItem("email");
       const res=await axios.post('/api/otp', { email, otp })
+      // console.log(res)
       if(res.data.errors){
         const errors=res.data.errors;
         toast(errors)
       }else{
         toast.success('registration successful')
         dispatch(login({
-          name:res.data.name,
-          email:res.data.email,
-          image:res.data.image,
+          name:res.data.user.name,
+          email:res.data.user.email,
+          // image:res.data.image,
           loggedIn:true,
         }))
         navigate('/')
@@ -86,7 +82,7 @@ const Otp = () => {
         console.log('ioioioioioioio')
         setCanResend(false)
         setTimeLeft(EXPIRY_TIME)
-        localStorage.setItem('otpExpiry',Date.now()+EXPIRY_TIME*1000)
+        localStorage.setItem('otpExpiry',(Date.now()+EXPIRY_TIME*1000).toString())
         const email=localStorage.getItem('email')
         if (!email) {
           console.log("No email found in localStorage");
@@ -95,44 +91,41 @@ const Otp = () => {
         console.log(email)
         const res=await axios.post('/api/resend-otp',{email})
         toast('new otp has been sent to your registered mail')
-        console.log('resennt otp')
-        console.log(res.data)
-        // if(res.data.errors){
-        //   const errors=res.data.errors;
-        //   toast(errors)
-        // }else{
-        //   toast.success('registration successful')
-        //   dispatch(login({
-        //     name:res.data.name,
-        //     email:res.data.email,
-        //     image:res.data.image,
-        //     loggedIn:true,
-        //   }))
+        // console.log('resennt otp')
+        console.log(res)
+        if(res.data.errors){
+          const errors=res.data.errors;
+          toast(errors)
+        }else{
+          toast.success('registration successful')
+          dispatch(login({
+            name:res.data.user.name,
+            email:res.data.user.email,
+            // image:res.data.image,
+            loggedIn:true,
+          }))
+        return startTimer(Date.now() + EXPIRY_TIME * 1000);
         //   navigate('/')
           
-        // }
+        }
       } catch (error:any) {
         console.log("error",error.message)
       }
 
-    },60000),[]
+    },500),[]
   )
 
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const { value } = e.target;
-        if (value.length === 1 && index < 5) {
-      const nextInput = document.getElementById(`otp${index + 2}`);
-      if (nextInput) nextInput.focus();
+    if (e.target.value.length === 1 && index < 5) {
+      document.getElementById(`otp${index + 2}`)?.focus();
     }
   };
-  
-  
+
   const handleBackspace = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
     if (e.key === "Backspace" && index > 0) {
-      const prevInput = document.getElementById(`otp${index}`);
-      if (prevInput) prevInput.focus();
+      document.getElementById(`otp${index}`)?.focus();
     }
   };
   
@@ -184,9 +177,9 @@ const Otp = () => {
              
               {canResend&&(
               <p className="text-center">
-                <span className="underline text-green-600 font-semibold cursor-pointer" onClick={resendOTP} disabled={!canResend}>
-                  Resend otp
-                </span>
+                 <span className="underline text-green-600 font-semibold cursor-pointer" onClick={resendOTP}>
+                    Resend OTP
+                  </span>
               </p>
               )} 
               

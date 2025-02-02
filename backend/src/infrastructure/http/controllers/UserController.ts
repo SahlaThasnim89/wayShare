@@ -67,6 +67,8 @@ const verifyUserOTP = async (
 
     await redis.del(`otp:${email}`);
 
+   
+
     res.status(201).json({
       message: "User registered successfully",
       user: {
@@ -94,6 +96,7 @@ const resendOTP=async(req:Request,res:Response):Promise<void>=>{
     }
 
     const otp=generateOtp()
+    console.log(otp,'resend')
     const storedData=await redis.get(`otp:${email}`)
 
     let userData = null;
