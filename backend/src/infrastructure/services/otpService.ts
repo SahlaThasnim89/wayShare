@@ -54,7 +54,15 @@ export const verifyOTP = async (
 export class OtpService{
   async resendOTP(email:string):Promise<void>{
     const otp=generateOtp()
-    await redis.setex(`otp:${email}`, 120, JSON.stringify({ otp }));
+    const storedData = await redis.get(`otp:${email}`);
+
+    let userData = null;
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      userData = parsedData.userData;
+    }
+
+    await redis.setex(`otp:${email}`, 300, JSON.stringify({ otp,userData }));
     await sendOTPEmail(email,otp)
   }
 }

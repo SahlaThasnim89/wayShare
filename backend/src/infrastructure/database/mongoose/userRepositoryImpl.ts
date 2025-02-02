@@ -5,7 +5,7 @@ import {IUserRepository} from '../../../domain/repositories/UserRepository'
 
 export class UserRepositoryImpl implements IUserRepository{
     async findOneByEmail(email: string): Promise<IUser | null> {
-        return User.findOne({ email });
+        return await User.findOne({ email });
     }
 
 

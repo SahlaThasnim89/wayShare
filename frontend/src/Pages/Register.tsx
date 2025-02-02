@@ -31,13 +31,13 @@ const Register = () => {
 
   const onSubmit = async (data: any) => {
     try {
+      navigate('/otp')  
       const res = await axios.post("/api/register", data);
       console.log(res.data)
       localStorage.setItem("email", data.email);
-      navigate('/otp')  
     } catch (error: any) {
       console.log(error.message);
-      toast("This email is already taken, try another");
+      toast('you may facing network issue, check your connection');
     }
   };
 

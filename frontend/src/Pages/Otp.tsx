@@ -11,7 +11,7 @@ import axios from "axios";
 import {debounce} from 'lodash';
 import { toast } from "sonner";
 
-
+const EXPIRY_TIME=120
 
 const Otp = () => {
 
@@ -21,20 +21,38 @@ const Otp = () => {
   const navigate=useNavigate()
   const dispatch=useDispatch();
 
-  const [timeLeft,setTimeLeft]=useState(60)
+  const [timeLeft,setTimeLeft]=useState(EXPIRY_TIME)
   const [canResend,setCanResend]=useState(false)
 
 
+  // useEffect(()=>{
+  //   if(timeLeft>0){
+  //     const timer=setInterval(()=>{
+  //       setTimeLeft((prev)=>prev-1)
+  //     },1000)
+  //     return ()=>clearInterval(timer)
+  //   }else{
+  //     setCanResend(true)
+  //   }
+  // },[timeLeft])
+
   useEffect(()=>{
-    if(timeLeft>0){
-      const timer=setInterval(()=>{
-        setTimeLeft((prev)=>prev-1)
-      },1000)
-      return ()=>clearInterval(timer)
-    }else{
-      setCanResend(true)
-    }
-  },[timeLeft])
+    const storeExpiry=localStorage.getItem('otpExpiry')
+    const expiryTime=storeExpiry?parseInt(storeExpiry):Date.now()+EXPIRY_TIME*1000;
+    localStorage.setItem('otpExpiry',expiryTime)
+
+    const timer=setInterval(()=>{
+      const remains=Math.max(0,Math.floor((expiryTime-Date.now())/1000))
+      setTimeLeft(remains)
+      if(remains<=0){
+        clearInterval(timer)
+        setCanResend(true)
+        localStorage.removeItem('otpExpiry')
+      }
+    },1000)
+
+    return ()=>clearInterval(timer)
+  },[])
 
 
   const onSubmit=async(data:any)=>{
@@ -65,8 +83,10 @@ const Otp = () => {
   const resendOTP=useCallback(
     debounce(async()=>{
       try {
+        console.log('ioioioioioioio')
         setCanResend(false)
-        setTimeLeft(60)
+        setTimeLeft(EXPIRY_TIME)
+        localStorage.setItem('otpExpiry',Date.now()+EXPIRY_TIME*1000)
         const email=localStorage.getItem('email')
         if (!email) {
           console.log("No email found in localStorage");
@@ -74,22 +94,23 @@ const Otp = () => {
         }
         console.log(email)
         const res=await axios.post('/api/resend-otp',{email})
+        toast('new otp has been sent to your registered mail')
         console.log('resennt otp')
         console.log(res.data)
-        if(res.data.errors){
-          const errors=res.data.errors;
-          toast(errors)
-        }else{
-          toast.success('registration successful')
-          dispatch(login({
-            name:res.data.name,
-            email:res.data.email,
-            image:res.data.image,
-            loggedIn:true,
-          }))
-          navigate('/')
+        // if(res.data.errors){
+        //   const errors=res.data.errors;
+        //   toast(errors)
+        // }else{
+        //   toast.success('registration successful')
+        //   dispatch(login({
+        //     name:res.data.name,
+        //     email:res.data.email,
+        //     image:res.data.image,
+        //     loggedIn:true,
+        //   }))
+        //   navigate('/')
           
-        }
+        // }
       } catch (error:any) {
         console.log("error",error.message)
       }

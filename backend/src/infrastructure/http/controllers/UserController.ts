@@ -5,6 +5,7 @@ import { saveOTP, verifyOTP } from "../../services/otpService";
 import { sendOTPEmail } from "../../services/EmailService";
 import redis from "../../services/RedisService";
 import { resendOtpUseCase } from "../../../application/usecases/ResendOTP";
+import { generateOtp } from "../../../shared/utils/otpUtils";
 // import { ForgotPasswordUseCase } from "../../../application/usecases/ForgetPasswordUsecase";
 // import { ResetPasswordUseCase } from "../../../application/usecases/ResetPasswordUseCase";
 
@@ -92,13 +93,39 @@ const resendOTP=async(req:Request,res:Response):Promise<void>=>{
       return;
     }
 
-    const ResendOtpUseCase = new resendOtpUseCase();
-    await ResendOtpUseCase.execute(email);
+    const otp=generateOtp()
+    const storedData=await redis.get(`otp:${email}`)
 
+    let userData = null;
+    if(storedData){
+      const parsedData=JSON.parse(storedData)
+      userData=parsedData.userData
+    }
+
+    const newOtpData=JSON.stringify({otp,userData})
+    await redis.setex(`otp:${email}`,120,newOtpData)
+
+    await sendOTPEmail(email, otp);
     res.json({ message: "OTP resent successfully" });
+
+
+    // const ResendOtpUseCase = new resendOtpUseCase();
+    // await ResendOtpUseCase.execute(email);
+
+    // res.json({ message: "OTP resent successfully" });
 
   } catch (error:any) {
     res.status(500).json({ message: error.message });
+  }
+}
+
+const loginUser=async(req:Request,res:Response):Promise<void>=>{
+  try {
+    console.log(req.body)
+    const {emai,password}=req.body
+  } catch (error:any) {
+    res.status(500).json({ message: error.message });
+
   }
 }
 
@@ -153,7 +180,7 @@ const logoutUser=async(req:Request,res:Response)=>{
 
 
 
-export { verifyUserOTP,registerUser,logoutUser ,resendOTP,
+export { verifyUserOTP,registerUser,logoutUser ,resendOTP,loginUser
   // forgotPassword,
   // resetPassword,
 };

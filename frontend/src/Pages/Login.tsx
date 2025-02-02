@@ -4,8 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/features/userSlice";
+import axios from 'axios'
+import { SubmitHandler, useForm } from "react-hook-form";
+import { loginSchema, TloginSchema } from "@/lib/LoginTypes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 const Login = () => {
+
+
+  const {register,handleSubmit,formState:{errors},setError}=useForm<TloginSchema>({resolver:zodResolver(loginSchema)})
   const user=useSelector(selectUser)
   const navigate=useNavigate()
 
@@ -14,6 +22,24 @@ const Login = () => {
   //       navigate('/')
   //   }
   // },[navigate,user])
+
+  const onSubmit:SubmitHandler<TloginSchema>=async(data)=>{
+    try {
+      const res=await axios.post('/api/login',data)
+      console.log(res.data)
+    } catch (error:any) {
+      console.log(error.message)
+    }
+  }
+
+  const errHandler=(e:any)=>{
+    Object.values(e).reverse().forEach((e:any)=>{
+      toast.error("sign up failed",{
+        description:e.message as string
+      })
+    })
+    
+  }
 
 
   return (
@@ -36,15 +62,15 @@ const Login = () => {
               </span>
               </Link>
             </p>
-            <form className="flex flex-col gap-4">
+            <form onSubmit={handleSubmit(onSubmit,errHandler)} className="flex flex-col gap-4">
               <InputField
                 label="Email"
                 type="email"
                 id="email"
                 placeholder="Enter your email"
-                
+                {...register('email')}
                 className="border border-green-600 rounded px-2 py-1"
-                required
+               
               />
               <InputField
                 label="Password"
@@ -52,7 +78,7 @@ const Login = () => {
                 id="password"
                 placeholder="Enter password"
                 className="border border-green-600 rounded px-2 py-1"
-                required
+                {...register('password')}
               />
                <Link to='/forgetPassword'> 
                             <p className="text-end">Forget password</p>

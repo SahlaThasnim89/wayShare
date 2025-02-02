@@ -6,4 +6,6 @@ export interface IUser extends Document {
     password: string;
     mobile: string;
     isBlocked: boolean;
+    matchPassword: (password: string) => Promise<boolean>;
+    // matchPassword?:(password:string)=>Promise<boolean>;
 }
