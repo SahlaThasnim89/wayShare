@@ -20,6 +20,9 @@ const userSchema=new Schema<IUser>({
         type: String, 
         required: true  
     },
+    // image:{
+    //     type:String
+    // },
     isBlocked:{
         type: Boolean, 
         default: false,

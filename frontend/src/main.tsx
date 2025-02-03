@@ -10,6 +10,7 @@ import { Home,
   ForgetPassword,
   ResetPassword,
   
+  UserProfile,
   
   FindARide,
 
@@ -47,6 +48,7 @@ const router=createBrowserRouter(
       <Route path='/resetPassword' element={<ResetPassword/>}/>
 
 
+      <Route path='/Profile' element={<UserProfile/>}/>
 
 
 

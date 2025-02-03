@@ -16,9 +16,8 @@ const DriverHome = () => {
           Your Journey, Your Control
           </h1>
 
-          <RideInput/>
-          {/* <RideInput/>
-          <RideInput/> */}
+
+          
   
           {/* Buttons in a Row */}
           <div className="flex gap-4">

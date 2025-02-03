@@ -4,6 +4,7 @@ import { UserRepositoryImpl } from '../../infrastructure/database/mongoose/UserR
 import { passwordHashingService } from '../../shared/utils/hashUtils'; 
 import { IUser } from '../../domain/entities/User';
 import User from '../../infrastructure/database/mongoose/UserModel';
+import { GetUserProfile } from '../../domain/usecases/GetUserProfile';
 
 export class UserServiceImpl implements IUserService{
     findByEmail(email: string) {
@@ -11,12 +12,17 @@ export class UserServiceImpl implements IUserService{
     }
     private UserRepository:IUserRepository;
     private hashingService:passwordHashingService;
+    private getUserProfileUseCase:GetUserProfile;
 
 
-    constructor(){
+
+    constructor(userRepository?:IUserRepository){
         this.UserRepository=new UserRepositoryImpl()
         this.hashingService=new passwordHashingService()
+        this.getUserProfileUseCase=new GetUserProfile(this.UserRepository)
     }
+
+
 
     async registerUser(name:string,email: string, password: string, mobile: string):Promise<IUser>{
         console.log('register start')
@@ -37,4 +43,12 @@ export class UserServiceImpl implements IUserService{
         
         return newUser;
     }
+
+  
+
+    async getUserProfile(userId:string){
+        return await this.getUserProfileUseCase.execute(userId)
+    }
+
+
 }

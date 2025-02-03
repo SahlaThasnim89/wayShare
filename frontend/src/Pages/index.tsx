@@ -1,11 +1,11 @@
-import Home from "./Home";
-import Register from "./Register";
-import Otp from "./Otp";
-import Login from "./Login";
-import ForgetPassword from "./forgetPassword";
-import ResetPassword from "./resetPassword";
+import Home from "./userAuth/Home";
+import Register from "./userAuth/Register";
+import Otp from "./userAuth/Otp";
+import Login from "./userAuth/Login";
+import ForgetPassword from "./userAuth/forgetPassword";
+import ResetPassword from "./userAuth/resetPassword";
 
-
+import UserProfile from "./userProfile/UserProfile";
 
 import FindARide from "./FindARide";
 
@@ -13,7 +13,7 @@ import FindARide from "./FindARide";
 import DriverHome from "./DriverHome";
 import DriverApplication from './DriverApplication'
 
-import AdminLogin from "./AdminLogin";
+import AdminLogin from "./AdminAuth/AdminLogin";
 import AdminDashbrd from './AdminDashbrd';
 import UserList from "./UserList";
 import DriversList from "./DriversList";
@@ -29,6 +29,8 @@ export{
     Login,
     ForgetPassword,
     ResetPassword,
+
+    UserProfile,
 
 
     FindARide,

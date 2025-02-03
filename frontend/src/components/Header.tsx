@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/tooltip";
 import { Link } from "react-router-dom";
 import { CircleUser } from "lucide-react";
+import { toast } from "sonner";
+
 
 
 
@@ -30,7 +32,7 @@ const Header = () => {
   const user=useSelector(selectUser)
   const dispatch=useDispatch()
 
-  const handleLogOut = async (e) => {
+  const handleLogOut = async (e:any) => {
     try {
       console.log('ertert')
       const res = await axios.post("/api/logout");
@@ -41,7 +43,7 @@ const Header = () => {
       } else {
         dispatch(logout());
         console.log("successfully logged out")
-        // toast.success("successfully logged out");
+        toast.success("successfully logged out");
 
         // setTimeout(()=>{
         //   if(location.pathname.includes('/admin')){
@@ -52,10 +54,20 @@ const Header = () => {
         // },100)
 
       }
-    } catch (error) {
+    } catch (error:any) {
       console.log(error.message);
     }
   };
+
+  // const getProfile=async(e:any)=>{
+  //   try {
+  //     console.log('uytytt')
+
+
+  //   } catch (error:any) {
+  //     console.log(error.message);
+  //   }
+  // }
 
 
 
@@ -164,8 +176,8 @@ const Header = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <Link to='/account'>
-                  <DropdownMenuItem onClick={(e) => getProfile(e)}>
+                  <Link to='/Profile'>
+                  <DropdownMenuItem>
                     My Account
                   </DropdownMenuItem>
                   </Link>

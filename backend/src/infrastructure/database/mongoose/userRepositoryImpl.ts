@@ -13,5 +13,9 @@ export class UserRepositoryImpl implements IUserRepository{
             const user=new User(userData)
             await user.save();
             return user;
-}
+    }
+
+    async findById(userId: string): Promise<Partial<IUser> | null> {
+        return await User.findById(userId).select("name email image isBlocked createdAt").lean()
+    }
 }

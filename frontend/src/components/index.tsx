@@ -11,11 +11,14 @@ import CountData from "./CountData"
 import RedirectButton from "./RedirectButton"
 import TopThree from './TopThree'
 import DataCards from "./DataCards"
+import ProfileCard from "./ProfileCard"
+
 export {Data,Footer,GreenButton,Feature,Cards,Header,InputField,
     RideInput,
     RideButton,
     CountData, 
     RedirectButton,
     TopThree,
-    DataCards
+    DataCards,
+    ProfileCard
 }

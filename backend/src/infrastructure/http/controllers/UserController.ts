@@ -6,8 +6,10 @@ import { sendOTPEmail } from "../../services/EmailService";
 import redis from "../../services/RedisService";
 import { resendOtpUseCase } from "../../../application/usecases/ResendOTP";
 import { generateOtp } from "../../../shared/utils/otpUtils";
+import { UserRepositoryImpl } from "../../database/mongoose/UserRepositoryImpl";
 // import { ForgotPasswordUseCase } from "../../../application/usecases/ForgetPasswordUsecase";
 // import { ResetPasswordUseCase } from "../../../application/usecases/ResetPasswordUseCase";
+import asyncHandler from 'express-async-handler';
 
 
 
@@ -17,10 +19,12 @@ const registerUser = async (
   res: Response
 ): Promise<void> => {
   try {
-    console.log(req.body)
+    console.log(req.body,'opoipo')
     const { name, email, password, mobile } = req.body;
     const otp = await saveOTP(email, { name, mobile, password, email });
+    console.log(otp,'otp sent')
     await sendOTPEmail(email, otp);
+    console.log('senttttttt')
     res.json({ message: "OTP sent to email" });
     return;
   } catch (error: any) {
@@ -63,7 +67,7 @@ const verifyUserOTP = async (
     );
 
     const authService = new AuthService();
-    const token = authService.generateToken(newUser);
+    const token = authService.generateToken(res,newUser);
 
     await redis.del(`otp:${email}`);
 
@@ -122,15 +126,64 @@ const resendOTP=async(req:Request,res:Response):Promise<void>=>{
   }
 }
 
-const loginUser=async(req:Request,res:Response):Promise<void>=>{
+
+
+const loginUser=async(req:Request,res:Response):Promise<any>=>{
   try {
     console.log(req.body)
-    const {emai,password}=req.body
+    const {email,password}=req.body
+    const authService = new AuthService();
+
+    const user=await authService.login(email,password)
+    console.log(user)
+    if (typeof user === 'string') {
+      console.log(user,'klk')
+      return res.status(400).json({ message: user });
+    }else{
+      authService.generateToken(res,user)
+      return res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isBlocked: user.isBlocked,
+      });
+    }
   } catch (error:any) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
 
   }
 }
+
+
+const logoutUser=async(req:Request,res:Response)=>{
+  try {
+      res.cookie('jwt','',{
+          httpOnly:true,
+          expires:new Date(0)
+      })
+      res.status(200).json({message:'User logged out successfully'})
+  } catch (error) {
+      res.status(400);
+      throw new Error('Failed to logout');
+  }
+}
+
+
+
+
+const userRepository=new UserRepositoryImpl()
+const userService=new UserServiceImpl(userRepository)
+
+const getUserProfile=asyncHandler(async(req:any,res:Response)=>{
+  try {
+    console.log(req.user)
+    const userId=req
+    const userProfile=await userService.getUserProfile(userId)
+
+  } catch (error:any) {
+    res.status(404).json({ message: error.message });
+  }
+})
 
 
 
@@ -167,23 +220,12 @@ const loginUser=async(req:Request,res:Response):Promise<void>=>{
 
 
 
-const logoutUser=async(req:Request,res:Response)=>{
-    try {
-        res.cookie('jwt','',{
-            httpOnly:true,
-            expires:new Date(0)
-        })
-        res.status(200).json({message:'User logged out successfully'})
-    } catch (error) {
-        res.status(400);
-        throw new Error('Failed to logout');
-    }
-}
 
 
 
 
-export { verifyUserOTP,registerUser,logoutUser ,resendOTP,loginUser
+
+export { verifyUserOTP,registerUser,logoutUser ,resendOTP,loginUser,getUserProfile
   // forgotPassword,
   // resetPassword,
 };

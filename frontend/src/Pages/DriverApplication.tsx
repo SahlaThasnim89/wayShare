@@ -17,16 +17,16 @@ const DriverApplication = () => {
           </h1>
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-2">
-          <RideInput placeholder="Enter pickup point" />
-          <RideInput placeholder="Enter pickup point" />
+          <RideInput placeholder="Enter First Name" />
+          <RideInput placeholder="Enter Last Name" />
           </div>
           <div className="flex flex-row gap-2">
-          <RideInput placeholder="Enter pickup point" />
-          <RideInput placeholder="Enter pickup point" />
+          <RideInput placeholder="Enter Mobile Number" />
+          <RideInput placeholder="Enter Email Address" />
           </div>
           <div className="flex flex-row gap-2">
-          <RideInput placeholder="Enter pickup point" />
-          <RideInput placeholder="Enter pickup point" />
+          <RideInput placeholder="Enter password" />
+          <RideInput placeholder="Confirm password" />
           </div>
           
           </div>
