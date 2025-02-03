@@ -11,6 +11,7 @@ import { Home,
   ResetPassword,
   
   UserProfile,
+  EditProfile,
   
   FindARide,
 
@@ -30,6 +31,7 @@ import { Home,
  } from './Pages/index';
 import { Provider } from 'react-redux';
 import {store} from './store/store.ts';
+import PrivateRoutes from './components/PrivateRoutes.tsx'
 
 
 
@@ -47,19 +49,24 @@ const router=createBrowserRouter(
       <Route path='/forgetPassword' element={<ForgetPassword/>}/>
       <Route path='/resetPassword' element={<ResetPassword/>}/>
 
+      <Route path='/admin/login' element={<AdminLogin/>}/>
 
+      
+      {/* privteRoutes */}
+      <Route path='' element={<PrivateRoutes/>}>
       <Route path='/Profile' element={<UserProfile/>}/>
+      <Route path='/editProfile' element={<EditProfile/>}/>
 
 
 
       <Route path='/findARide' element={<FindARide/>}/>
+
 
       <Route path='/driver' element={<DriverHome/>}/>
       <Route path='/driver/applyToDrive' element={<DriverApplication/>}/>
 
 
 
-      <Route path='/admin/login' element={<AdminLogin/>}/>
 
 
 
@@ -71,7 +78,7 @@ const router=createBrowserRouter(
       <Route path='/admin/applicationDetails' element={<DriverApplicationDetails/>}/>
 
       <Route path='/admin/RidesList' element={<RidesList/>}/>
-
+      </Route>
 
     </Route>
   )

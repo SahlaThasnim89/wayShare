@@ -6,6 +6,7 @@ import ForgetPassword from "./userAuth/forgetPassword";
 import ResetPassword from "./userAuth/resetPassword";
 
 import UserProfile from "./userProfile/UserProfile";
+import EditProfile from "./userProfile/EditProfile";
 
 import FindARide from "./FindARide";
 
@@ -31,6 +32,7 @@ export{
     ResetPassword,
 
     UserProfile,
+    EditProfile,
 
 
     FindARide,

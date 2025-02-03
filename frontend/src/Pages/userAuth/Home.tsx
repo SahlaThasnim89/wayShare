@@ -22,7 +22,6 @@ import { useSelector } from "react-redux";
 const Home = () => {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
-  console.log(user,'jhkjhkh')
 
   useEffect(()=>{
     if(user){

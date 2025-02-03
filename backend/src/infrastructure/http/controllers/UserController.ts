@@ -19,12 +19,9 @@ const registerUser = async (
   res: Response
 ): Promise<void> => {
   try {
-    console.log(req.body,'opoipo')
     const { name, email, password, mobile } = req.body;
     const otp = await saveOTP(email, { name, mobile, password, email });
-    console.log(otp,'otp sent')
     await sendOTPEmail(email, otp);
-    console.log('senttttttt')
     res.json({ message: "OTP sent to email" });
     return;
   } catch (error: any) {
@@ -46,7 +43,6 @@ const verifyUserOTP = async (
     return;
   }
 
-  console.log(storedData, "User Data from Redis");
   try {
     if (!storedData) {
       return res.status(400).json({ message: "No user data found in OTP storage" });
@@ -92,7 +88,7 @@ const verifyUserOTP = async (
 
 const resendOTP=async(req:Request,res:Response):Promise<void>=>{
   try {
-    console.log(req.body,'yyyyy')
+    // console.log(req.body,'yyyyy')
     const { email } = req.body;
     if (!email) {
       res.status(400).json({ message: "Email is required" });
@@ -176,14 +172,15 @@ const userService=new UserServiceImpl(userRepository)
 
 const getUserProfile=asyncHandler(async(req:any,res:Response)=>{
   try {
-    console.log(req.user)
-    const userId=req
-    const userProfile=await userService.getUserProfile(userId)
+    const userId = req.user; 
+    const userProfile=await userService.getUserProfile(userId._id)
+    res.status(200).json(userProfile);
 
   } catch (error:any) {
     res.status(404).json({ message: error.message });
   }
 })
+
 
 
 

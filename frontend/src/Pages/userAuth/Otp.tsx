@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {debounce} from 'lodash';
 import { toast } from "sonner";
+import { start } from "node:repl";
+
 
 const EXPIRY_TIME=120
 
@@ -79,7 +81,6 @@ useEffect(()=>{
   const resendOTP=useCallback(
     debounce(async()=>{
       try {
-        console.log('ioioioioioioio')
         setCanResend(false)
         setTimeLeft(EXPIRY_TIME)
         localStorage.setItem('otpExpiry',(Date.now()+EXPIRY_TIME*1000).toString())
@@ -88,16 +89,15 @@ useEffect(()=>{
           console.log("No email found in localStorage");
           return;
         }
-        console.log(email)
         const res=await axios.post('/api/resend-otp',{email})
         toast('new otp has been sent to your registered mail')
         // console.log('resennt otp')
-        console.log(res)
         if(res.data.errors){
           const errors=res.data.errors;
           toast(errors)
         }else{
           // toast.success('registration successful')
+          localStorage.removeItem('otpExpiry')
           dispatch(login({
             name:res.data.user.name,
             email:res.data.user.email,
@@ -109,6 +109,7 @@ useEffect(()=>{
           
         }
       } catch (error:any) {
+        localStorage.removeItem('otpExpiry')
         console.log("error",error.message)
       }
 

@@ -5,6 +5,7 @@ import { logoutUser, registerUser,verifyUserOTP,resendOTP,loginUser,getUserProfi
 //     forgotPassword,
 //   resetPassword,
  } from "../controllers/UserController";
+ import { protect } from '../middlewares/authMiddleware';
 
 
 router.post('/register',registerUser)
@@ -12,7 +13,7 @@ router.post('/otp',verifyUserOTP)
 router.post('/logout',logoutUser)
 router.post('/resend-otp',resendOTP)
 router.post('/login',loginUser)
-router.get('/Profile',getUserProfile)
+router.route('/Profile').get(protect,getUserProfile)
 // router.post("/forgot-password", forgotPassword);
 // router.post("/reset-password", resetPassword);
 
