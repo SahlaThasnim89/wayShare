@@ -1,3 +1,5 @@
+import { GoogleLogin } from "@react-oauth/google";
+
 import { Header, Footer, GreenButton, InputField } from "../../components/index";
 import Image from "../../assets/login-img.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -63,6 +65,28 @@ const Login = () => {
     
   }
 
+  const googleLogin=async(res:any):Promise<void>=>{
+    try {
+      console.log('hdjsdf')
+      const {credential}=res
+      console.log(credential)
+      if(!credential){
+        toast('Failed to log in with Google');
+        return;
+      }
+      const auth=await axios.post('/api/auth/google',{token:credential})
+      if(auth.data.success){
+        dispatch(login(auth.data.user)); 
+        navigate("/"); 
+      } else {
+        toast('Google login failed');
+      }
+    } catch (error:any) {
+      console.error(error);
+      toast('Error logging in with Google');
+    }
+  }
+
 
   return (
     <div>
@@ -73,9 +97,9 @@ const Login = () => {
             <h1 className="text-center font-bold pb-11 text-2xl">
               Login to Your Account
             </h1>
-            <button className="border border-gray-300 rounded px-2 py-1 w-full">
-              Login with Google
-            </button>
+            <div className="flex justify-center text-center font-bold pb-11 text-2xl">
+      <GoogleLogin onSuccess={googleLogin} onError={() => toast("Login failed")} />
+    </div>
             <p className="text-center">
               Don't have an acconut?{" "}
               <Link to='/register'> 

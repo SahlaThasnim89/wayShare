@@ -182,6 +182,36 @@ const getUserProfile=asyncHandler(async(req:any,res:Response)=>{
 })
 
 
+const updateUserProfile=async(req:any,res:Response):Promise<any>=>{
+  try {
+    console.log(req.body)
+    const {name,password,email,
+      image
+    }=req.body
+    const user=req.user._id
+    console.log(user)
+    const updatedUser=await userService.updateUserProfile(user,{
+      name,
+      password,
+      // image
+    })
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      // image: updatedUser.image,
+    })
+  } catch (error:any) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+
 
 
 // const forgotPassword=async(req:Request,res:Response):Promise<void>=>{
@@ -222,7 +252,7 @@ const getUserProfile=asyncHandler(async(req:any,res:Response)=>{
 
 
 
-export { verifyUserOTP,registerUser,logoutUser ,resendOTP,loginUser,getUserProfile
+export { verifyUserOTP,registerUser,logoutUser ,resendOTP,loginUser,getUserProfile,updateUserProfile
   // forgotPassword,
   // resetPassword,
 };

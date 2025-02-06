@@ -4,6 +4,7 @@ import { environment } from '../config/environment'
 import { notFound,errorHandler } from '../infrastructure/http/middlewares/errorMiddleware'
 import connectDB from '../config/database'
 import userRoutes from '../infrastructure/http/routes/userRoutes';
+import adminRoute from '../infrastructure/http/routes/adminRoute'
 import morgan from "morgan";
 import cors from "cors"
 import { trusted } from 'mongoose';
@@ -28,6 +29,7 @@ app.get('/ggg',(req,res)=>{
     res.send('tyu')
 })
 app.use('/api',userRoutes);
+app.use('/api/admin',adminRoute)
 
 
 

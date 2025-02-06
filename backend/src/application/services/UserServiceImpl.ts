@@ -5,6 +5,7 @@ import { passwordHashingService } from '../../shared/utils/hashUtils';
 import { IUser } from '../../domain/entities/User';
 import User from '../../infrastructure/database/mongoose/UserModel';
 import { GetUserProfile } from '../../domain/usecases/GetUserProfile';
+import { UpdateUser } from './../../domain/usecases/UpdateUser';
 
 export class UserServiceImpl implements IUserService{
     findByEmail(email: string) {
@@ -13,6 +14,7 @@ export class UserServiceImpl implements IUserService{
     private UserRepository:IUserRepository;
     private hashingService:passwordHashingService;
     private getUserProfileUseCase:GetUserProfile;
+    private UpdateUserUseCase:UpdateUser;
 
 
 
@@ -20,6 +22,7 @@ export class UserServiceImpl implements IUserService{
         this.UserRepository=new UserRepositoryImpl()
         this.hashingService=new passwordHashingService()
         this.getUserProfileUseCase=new GetUserProfile(this.UserRepository)
+        this.UpdateUserUseCase=new UpdateUser(this.UserRepository)
     }
 
 
@@ -48,6 +51,10 @@ export class UserServiceImpl implements IUserService{
 
     async getUserProfile(userId:string){
         return await this.getUserProfileUseCase.execute(userId)
+    }
+
+    async updateUserProfile(userId:string,userData:Partial<IUser>):Promise<IUser|null>{
+        return this.UpdateUserUseCase.execute(userId,userData);
     }
 
 

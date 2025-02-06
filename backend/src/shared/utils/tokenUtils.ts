@@ -4,7 +4,7 @@ import { IUser } from '../../domain/entities/User';
 import { Response } from 'express';
 
 
-export const generateToken=(res:Response,user:IUser):string=>{
+export const generateToken=(res:Response,user:IUser|any):any=>{
     const payload={
         id:user._id,
         name:user.name,

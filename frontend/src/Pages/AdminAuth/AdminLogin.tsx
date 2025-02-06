@@ -1,8 +1,94 @@
 import { Header, Footer, GreenButton, InputField } from "../../components/index";
 import Image from "../../assets/login-img.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm,SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { selectUser,login } from "@/features/userSlice";
+import { useEffect } from "react";
+import axios from "axios";
+import { loginSchema,TloginSchema } from "@/lib/LoginTypes";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+
 
 const AdminLogin = () => {
+
+  const {
+    register,
+    handleSubmit,
+    formState:{errors,isSubmitting},
+    setError
+  }=useForm<TloginSchema>({resolver:zodResolver(loginSchema)})
+
+  const navigate=useNavigate()
+  const dispatch=useDispatch()
+  const user=useSelector(selectUser)
+
+  useEffect(()=>{
+    if(user){
+      navigate('/admin/Dashboard')
+    }
+  },[navigate,user])
+
+
+  
+const onSubmit:SubmitHandler<TloginSchema>=async(data)=>{
+  try {    
+    const res=await axios.post('/api/admin/login',data)
+    
+    if(res.data.errors){
+      const errors=res.data.errors;
+    
+      if(errors.email){
+        setError('email',{
+          type:'server',
+          message:errors.email,
+        })
+      }else if(errors.password){
+          setError('password',{
+            type:'server',
+            message:errors.password,
+          })
+        }else{
+          toast.error('something went wrong');
+          
+        }
+      }else{
+        // await loginApiCall({email:res.data.email,password:res.data.password}).unwrap()
+        toast.success('successfully logged in')        
+        dispatch(login({
+          name:res.data.name,
+          email:res.data.email,
+          loggedIn:true,
+        }))        
+      }
+    }
+    
+    
+   catch (error) {
+    setError("root", {
+      message: "This email is already taken",
+    });
+    toast("This email is already taken");
+  }
+}
+
+
+const errHandler=(e:any)=>{
+  Object.values(e).reverse().forEach(e=>{
+    toast.error("sign up failed",{
+      description:e.message as string
+    })
+  })
+  
+}
+
+
+
+
+
+
+
   return (
     <div>
       <Header />
@@ -13,25 +99,25 @@ const AdminLogin = () => {
               Login to Admin panel
             </h1>
             
-            <form className="flex flex-col gap-4">
+            <form onSubmit={handleSubmit(onSubmit,errHandler)} className="flex flex-col gap-4">
               <InputField
                 label="Email"
                 type="email"
                 id="email"
-                placeholder="Enter your email"
+                defaultValue='AdminSahla@gmail.com'
                 className="border border-green-600 rounded px-2 py-1"
-                required
+                {...register('email')}
               />
               <InputField
                 label="Password"
                 type="password"
                 id="password"
-                placeholder="Enter password"
+                defaultValue='AdminSahla'
                 className="border border-green-600 rounded px-2 py-1"
-                required
+                {...register('password')}
               />
 
-              <GreenButton>Register</GreenButton>
+              <GreenButton type='submit'>Login</GreenButton>
 
             </form>
           </div>

@@ -415,7 +415,7 @@ const EditProfile = () => {
       const profileData = {
         name: data.name || currentUser?.name,
         password: data.password || undefined,
-        image: imageUrl || currentUser?.image,
+        // image: imageUrl || currentUser?.image,
       };
 
       const res = await axios.put("/api/Profile", profileData);
@@ -433,7 +433,7 @@ const EditProfile = () => {
           login({
             name: res.data.name,
             email: res.data.email,
-            image: res.data.image,
+            // image: res.data.image,
             loggedIn: true,
           })
         );

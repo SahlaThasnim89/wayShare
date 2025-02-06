@@ -20,6 +20,7 @@ const userSchema=new Schema<IUser>({
         type: String, 
         required: true  
     },
+    googleId: { type: String, unique: true, sparse: true },
     // image:{
     //     type:String
     // },

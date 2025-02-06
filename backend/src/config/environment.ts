@@ -10,5 +10,7 @@ export const environment={
     redishost: process.env.REDIS_HOST || "127.0.0.1",
     userEmail:process.env.EMAIL_USER,
     userPassword:process.env.EMAIL_PASS,
-    nodeEnv:process.env.NODE_ENV
+    nodeEnv:process.env.NODE_ENV,
+    clientId:process.env.CLIENT_ID,
+    clientSecret:process.env.CLIENT_SECRET
 }

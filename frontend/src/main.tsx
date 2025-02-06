@@ -32,10 +32,11 @@ import { Home,
 import { Provider } from 'react-redux';
 import {store} from './store/store.ts';
 import PrivateRoutes from './components/PrivateRoutes.tsx'
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 
 
-
+const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 
 
@@ -86,9 +87,11 @@ const router=createBrowserRouter(
 
 
 createRoot(document.getElementById('root')!).render(
+  <GoogleOAuthProvider clientId={clientId}>
   <StrictMode>
     <Provider store={store}>
     <RouterProvider router={router}/>
     </Provider>
-  </StrictMode>,
+  </StrictMode>
+  </GoogleOAuthProvider>,
 )

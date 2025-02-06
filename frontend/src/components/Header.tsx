@@ -18,9 +18,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CircleUser } from "lucide-react";
 import { toast } from "sonner";
+
 
 
 
@@ -31,10 +32,10 @@ import { toast } from "sonner";
 const Header = () => {
   const user=useSelector(selectUser)
   const dispatch=useDispatch()
+  const navigate=useNavigate()
 
   const handleLogOut = async (e:any) => {
     try {
-      console.log('ertert')
       const res = await axios.post("/api/logout");
       console.log(res.data)
       if (res.data.errors) {
@@ -45,13 +46,13 @@ const Header = () => {
         console.log("successfully logged out")
         toast.success("successfully logged out");
 
-        // setTimeout(()=>{
-        //   if(location.pathname.includes('/admin')){
-        //     navigate('/admin/login')
-        //   }else{
-        //     navigate('/login')
-        //   }
-        // },100)
+        setTimeout(()=>{
+          if(location.pathname.includes('/admin')){
+            navigate('/admin/login')
+          }else{
+            navigate('/login')
+          }
+        },100)
 
       }
     } catch (error:any) {
@@ -59,15 +60,7 @@ const Header = () => {
     }
   };
 
-  // const getProfile=async(e:any)=>{
-  //   try {
-  //     console.log('uytytt')
 
-
-  //   } catch (error:any) {
-  //     console.log(error.message);
-  //   }
-  // }
 
 
 
@@ -84,15 +77,17 @@ const Header = () => {
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
+                  <Link to='/'>
                     <a
                       href="#"
-                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:text-white"
+                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:text-md"
                     >
                       Home
                     </a>
+                    </Link>
                     <a
                       href="#"
-                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:text-white"
+                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:text-md"
                     >
                       Dashboard
                     </a>

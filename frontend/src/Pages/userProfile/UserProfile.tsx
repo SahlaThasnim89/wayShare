@@ -41,6 +41,7 @@ const UserProfile = () => {
   const navigate=useNavigate()
 
   const [currentUser,setCurrentUser]=useState(null)
+  console.log(currentUser,'hgjhg')
 
   useEffect(()=>{
     if(user){
