@@ -1,5 +1,6 @@
-import { User } from "../../domain/entities/User";
+import { IUser } from "../../domain/entities/User";
 
 export interface IAdminService {
-  getUsers(): Promise<User[]>;
+  getUsers(): Promise<IUser[]>;
+  blockUser(userId: string, isBlocked: boolean): Promise<Partial<IUser> | null>; 
 }

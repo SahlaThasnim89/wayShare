@@ -12,5 +12,8 @@ export const environment={
     userPassword:process.env.EMAIL_PASS,
     nodeEnv:process.env.NODE_ENV,
     clientId:process.env.CLIENT_ID,
-    clientSecret:process.env.CLIENT_SECRET
+    clientSecret:process.env.CLIENT_SECRET,
+    adminId:process.env.ADMIN_ID,
+    adminEmail:process.env.ADMIN_EMAIL,
+    adminPassword:process.env.ADMIN_PASSWORD,
 }

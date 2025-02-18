@@ -2,8 +2,8 @@ import { AppSidebar } from "./App-sidebar";
 
 export function UserSidebar() {
   const menuItems = [
-    { link: "/", name: "Home" },
-    { link: "/Profile", name: "My Account"},
+    { link: "/overView", name: "Overview" },
+    { link: "/Profile", name: "Account Info"},
     { link: "/Activity", name: "My Activity" },
     { link: "/Notifications", name: "Notifications", count: 3 },
     { link: "/Refer & Earn", name: "Refer & Earn" },

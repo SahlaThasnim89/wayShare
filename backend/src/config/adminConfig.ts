@@ -1,4 +1,6 @@
+import { environment } from "./environment";
+
 export const adminCredentials = {
-    email: "AdminSahla@gmail.com",
-    password: "AdminSahla",
+    email: environment.adminEmail,
+    password: environment.adminPassword,
   };

@@ -1,9 +1,9 @@
 import express from 'express'
 const router=express.Router()
 
-import { logoutUser, registerUser,verifyUserOTP,resendOTP,loginUser,getUserProfile,updateUserProfile
-//     forgotPassword,
-//   resetPassword,
+import { logoutUser, registerUser,verifyUserOTP,resendOTP,loginUser,getUserProfile,updateUserProfile,
+    forgotPassword,
+    resetPassword,
  } from "../controllers/UserController";
  import { protect } from '../middlewares/authMiddleware';
  import {googleAuth} from '../controllers/AuthController'
@@ -22,8 +22,8 @@ router.route('/Profile')
                 updateUserProfile
             )
 
-// router.post("/forgot-password", forgotPassword);
-// router.post("/reset-password", resetPassword);
+router.post("/forgetPassword",forgotPassword);
+router.post("/resetPassword", resetPassword);
 
 
 export default router

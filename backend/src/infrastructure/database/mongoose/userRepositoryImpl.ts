@@ -14,11 +14,12 @@ export class UserRepositoryImpl implements IUserRepository{
             const user=new User(userData)
             console.log("User Created ", user);
             await user.save();
+            console.log('ioio')
             return user;
     }
 
     async findById(userId: string): Promise<Partial<IUser> | null> {
-        return await User.findById(userId).select("name email image isBlocked createdAt").lean()
+        return await User.findById(userId).select("name email image mobile isBlocked password createdAt").lean()
     }
 
     async update(userId:string,userData:Partial<IUser>):Promise<IUser|null>{
@@ -31,4 +32,12 @@ export class UserRepositoryImpl implements IUserRepository{
         console.log("Looking for user with Google ID:", googleId);
         return User.findOne({ googleId }).lean();
     }
+
+    async getAllUsers(): Promise<IUser[]> {
+        return User.find(); 
+      }
+
+      async save(user: IUser): Promise<Partial<IUser> | null> {
+        return await user.save();
+      }
 }

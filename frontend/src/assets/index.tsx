@@ -10,4 +10,5 @@ import Driver from './driver.png'
 import name from './name.png'
 import logo from './logo.jpg'
 import profileimg from './profileimg.jpg'
-export{Location,LoginImg,HomeImg,Car,Charging,money,security,wifi,Driver,name,logo,profileimg}
+import User from './user.jfif'
+export{Location,LoginImg,HomeImg,Car,Charging,money,security,wifi,Driver,name,logo,profileimg,User}

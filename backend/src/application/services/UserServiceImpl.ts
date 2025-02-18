@@ -6,15 +6,21 @@ import { IUser } from '../../domain/entities/User';
 import User from '../../infrastructure/database/mongoose/UserModel';
 import { GetUserProfile } from '../../domain/usecases/GetUserProfile';
 import { UpdateUser } from './../../domain/usecases/UpdateUser';
+import { GetUserUseCase } from './../../domain/usecases/GetUsers';
 
 export class UserServiceImpl implements IUserService{
-    findByEmail(email: string) {
-        throw new Error("Method not implemented.");
+    // findByEmail(email: string) {
+    //     throw new Error("Method not implemented.");
+    // }
+    async findByEmail(email: string): Promise<IUser | null> {
+        return await User.findOne({ email }) || null;
     }
+
     private UserRepository:IUserRepository;
     private hashingService:passwordHashingService;
     private getUserProfileUseCase:GetUserProfile;
     private UpdateUserUseCase:UpdateUser;
+    private getUserUseCase:GetUserUseCase;
 
 
 
@@ -23,6 +29,7 @@ export class UserServiceImpl implements IUserService{
         this.hashingService=new passwordHashingService()
         this.getUserProfileUseCase=new GetUserProfile(this.UserRepository)
         this.UpdateUserUseCase=new UpdateUser(this.UserRepository)
+        this.getUserUseCase=new GetUserUseCase(this.UserRepository)
     }
 
 
@@ -57,5 +64,15 @@ export class UserServiceImpl implements IUserService{
         return this.UpdateUserUseCase.execute(userId,userData);
     }
 
+    async getAllUsers() {
+        return this.getUserUseCase.execute();
+      }
+
+    async updatePassword(email: string, newPassword: string): Promise<void> {
+        const user = await this.UserRepository.findOneByEmail(email);
+        if (!user) {
+            throw new Error("User not found");
+        }
+    }
 
 }

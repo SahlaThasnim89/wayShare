@@ -7,6 +7,7 @@ export interface IUserRepository {
     create(userData: Partial<IUser>): Promise<IUser>;
     findById(userId:string):Promise<Partial<IUser> | null>;
     update(userId: string, userData: Partial<IUser>): Promise<IUser | null>;
+    getAllUsers(): Promise<IUser[]>; 
 }
 
 

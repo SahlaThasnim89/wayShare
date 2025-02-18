@@ -2,16 +2,36 @@ import React, { useState } from 'react'
 import { Header, Footer, GreenButton, InputField } from "../../components/index";
 import Image from "../../assets/login-img.png";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'sonner';
+import { FPasswordSchema,TFPasswordSchema } from '@/lib/FPasswordTypes';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
 
-const forgetPassword = () => {
 
-    const[email,setEmail]=useState('')
+const ForgetPassword = () => {
 
-    const handleSubmit=(e:any)=>{
-        e.preventDefault()
-        console.log(email)
-    }
+      const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        // setError,
+      } = useForm<TFPasswordSchema>({
+        resolver: zodResolver(FPasswordSchema),
+      });
+
+    const onSubmit = async (data: { email: string }) => {
+      try {
+        console.log(data.email,'hkhkhk')
+        const res = await axios.post("/api/forgetPassword", {email: data.email});
+          console.log(res,'fghdgjg')
+          toast.success(res.data)
+      } catch (error: any) {
+        console.log(error.message);
+        toast('you may facing network issue, check your connection');
+      }
+    };
   
   
     return (
@@ -24,19 +44,24 @@ const forgetPassword = () => {
             <h1 className="text-center font-bold pb-11 text-2xl">
               Enter your registered email
             </h1>
-            <form onSubmit={handleSubmit}  className="flex flex-col gap-4">
-              <InputField
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            <InputField
                 label="Email"
                 type="email"
                 id="email"
                 placeholder="Enter your email"
-                className="border border-green-600 rounded px-2 py-1"
-                required
-                value={email}
-                onChange={(e:any)=>{setEmail(e.target.value)}}
+                {...register("email")} 
+                className={`border rounded px-2 py-1 ${
+                  errors.email ? "border-red-600" : "border-green-600"
+                }`}
               />
+      
+              {/* Show error message */}
+{errors.email?.message && <p className="text-red-600 text-sm">{errors.email.message}</p>}
+
+          
               
-                <p>an otp will get to your registered email</p>
+                <p>we have sent an verification message to your registered email</p>
               <GreenButton>Submit</GreenButton>
               <p className="text-center">
               want to go back?{" "}
@@ -59,4 +84,4 @@ const forgetPassword = () => {
   )
 }
 
-export default forgetPassword
+export default ForgetPassword;

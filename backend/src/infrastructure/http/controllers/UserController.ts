@@ -7,8 +7,8 @@ import redis from "../../services/RedisService";
 import { resendOtpUseCase } from "../../../application/usecases/ResendOTP";
 import { generateOtp } from "../../../shared/utils/otpUtils";
 import { UserRepositoryImpl } from "../../database/mongoose/UserRepositoryImpl";
-// import { ForgotPasswordUseCase } from "../../../application/usecases/ForgetPasswordUsecase";
-// import { ResetPasswordUseCase } from "../../../application/usecases/ResetPasswordUseCase";
+import { ForgotPasswordUseCase } from "../../../application/usecases/ForgetPasswordUsecase";
+import { ResetPasswordUseCase } from "../../../application/usecases/ResetPasswordUseCase";
 import asyncHandler from 'express-async-handler';
 
 
@@ -184,17 +184,20 @@ const getUserProfile=asyncHandler(async(req:any,res:Response)=>{
 
 const updateUserProfile=async(req:any,res:Response):Promise<any>=>{
   try {
-    console.log(req.body)
-    const {name,password,email,
-      image
+    console.log(req.body,'ryieryiey')
+    const {name,email,mobile,
+      image,currentPassword,password
     }=req.body
     const user=req.user._id
-    console.log(user)
+    // console.log(user)
     const updatedUser=await userService.updateUserProfile(user,{
       name,
+      mobile,
+      image,
       password,
-      // image
+      currentPassword
     })
+    console.log(updatedUser,'currentPassword')
 
     if (!updatedUser) {
       return res.status(404).json({ message: 'User not found' });
@@ -204,7 +207,8 @@ const updateUserProfile=async(req:any,res:Response):Promise<any>=>{
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      // image: updatedUser.image,
+      mobile:updatedUser.mobile,
+      image: updatedUser.image,
     })
   } catch (error:any) {
     res.status(500).json({ message: error.message });
@@ -214,36 +218,39 @@ const updateUserProfile=async(req:any,res:Response):Promise<any>=>{
 
 
 
-// const forgotPassword=async(req:Request,res:Response):Promise<void>=>{
-//   try {
-//     const {email}=req.body
-//     if(!email){
-//       res.status(400).json({message:"Email is required"})
-//       return;
-//     }
-//     const forgotPasswordUseCase=new ForgotPasswordUseCase()
-//     await forgotPasswordUseCase.execute(email)
-//     res.json({message:'an email has sent to your  mail'})
-//   } catch (error:any) {
-//     res.status(500).json({message:error.message})
-//   }
-// }
+const forgotPassword=async(req:Request,res:Response):Promise<void>=>{
+  try {
+    const {email}=req.body
+    if(!email){
+      res.status(400).json({message:"Email is required"})
+      return;
+    }
+    const forgotPasswordUseCase=new ForgotPasswordUseCase()
+    await forgotPasswordUseCase.execute(email)
+    res.json({message:'an email has sent to your  mail'})
+  } catch (error:any) {
+    res.status(500).json({message:error.message})
+  }
+}
 
 
-// const resetPassword=async(req:Request,res:Response):Promise<void>=>{
-//   try {
-//     const {email,token,newPassword}=req.body
-//     if (!email || !token || !newPassword) {
-//       res.status(400).json({ message: "All fields are required" });
-//       return;
-//     }
-//     const resetPasswordUseCase=new ResetPasswordUseCase();
-//     await resetPasswordUseCase.execute(email,token,newPassword)
-//     res.json({ message: "Password reset successful" });
-//   } catch (error: any) {
-//     res.status(500).json({ message: error.message });
-//   }
-// }
+const resetPassword=async(req:Request,res:Response):Promise<void>=>{
+  try {
+    console.log('uyiuyi')
+    console.log(req.body,'ytyutu')
+    const {email,token,password}=req.body
+    if (!email || !token || !password) {
+      res.status(400).json({ message: "All fields are required" });
+      return;
+    }
+    const resetPasswordUseCase=new ResetPasswordUseCase();
+    // console.log(resetPasswordUseCase,'resetPasswordUseCase')
+    await resetPasswordUseCase.execute(email,token,password)
+    res.json({ message: "Password reset successful" });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+}
 
 
 
@@ -252,7 +259,7 @@ const updateUserProfile=async(req:any,res:Response):Promise<any>=>{
 
 
 
-export { verifyUserOTP,registerUser,logoutUser ,resendOTP,loginUser,getUserProfile,updateUserProfile
-  // forgotPassword,
-  // resetPassword,
+export { verifyUserOTP,registerUser,logoutUser ,resendOTP,loginUser,getUserProfile,updateUserProfile,
+  forgotPassword,
+  resetPassword,
 };

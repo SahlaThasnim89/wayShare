@@ -11,13 +11,13 @@ export class ResetPasswordUseCase{
         this.hashingService=new passwordHashingService()
     }
 
-    async execute(email:string,token:string,newPassword:string):Promise<void>{
+    async execute(email:string,token:string,password:string):Promise<void>{
         const storedToken=await redis.get(`reset:${email}`)
         if (!storedToken || storedToken !== token) {
             throw new Error("Invalid or expired reset token");
           }
 
-          const hashedPassword=await this.hashingService.hashPassword(newPassword)
+          const hashedPassword=await this.hashingService.hashPassword(password)
           await this.userService.updatePassword(email,hashedPassword)
           await redis.del(`reset:${email}`)
 

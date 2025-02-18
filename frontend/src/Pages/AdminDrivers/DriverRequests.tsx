@@ -1,4 +1,4 @@
-import { Header, Footer } from "../components/index";
+import { Header, Footer } from "../../components/index";
 import { Link } from "react-router-dom";
 import {
   Breadcrumb,

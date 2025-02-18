@@ -1,24 +1,51 @@
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 
 
-const navigate=useNavigate()
+
+const register = async (data: any) => {
+  try {
+    const res = await axios.post("/api/register", data);
+    return res.data; 
+  } catch (error: any) {
+    throw new Error(error.message || "There was an error processing your request.");
+  }
+};
 
 
 
-// const register = async (data: any) => {
-//     try {
-//         console.log('uiuy')
-//       navigate('/otp')  
-//       const res = await axios.post("/api/register", data);
-//       console.log(res.data)
-//       localStorage.setItem("email", data.email);
-//     } catch (error: any) {
-//       console.log(error.message);
-//       toast('you may facing network issue, check your connection');
-//     }
-//   };
+const getUserProfile = async () => {
+  try {
+    console.log('jkkjljl')
+    const res = await axios.get("/api/Profile");
+    console.log(res.data,'uiuiuiu')
+    return res.data;  
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Error fetching user data");
+  }
+};
 
-//   export {register}
+const updateUser = async (data: any) => {
+  try {
+    console.log("Updating user with data:", data);
+    const res = await axios.put("/api/Profile", data);
+
+    if (res.data.errors) {
+      toast.error("Something went wrong");
+      return null;
+    } else {
+      return res.data;
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    toast.error("Update request failed.");
+    return null;
+  }
+};
+
+   export {
+    getUserProfile,
+    updateUser,
+    register,
+}

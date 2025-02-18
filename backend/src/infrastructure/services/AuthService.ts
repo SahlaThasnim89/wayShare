@@ -24,14 +24,17 @@ export class AuthService{
 
     async login(email:string,password:string):Promise<IUser|string>{
         const user=await User.findOne({email})
+        console.log(user,'user')
         if (!user) {
             return 'Email not found';
         }
-        const isPasswordMatch = await this.passwordService.comparePassword(password,user.password);
-        if (!isPasswordMatch) {
-            return 'Incorrect password';
-          }
-      
+        if(!user.googleId){
+            const isPasswordMatch = await this.passwordService.comparePassword(password,user.password as string);
+            console.log(isPasswordMatch,'isPasswordMatch')
+            if (!isPasswordMatch) {
+                return 'Incorrect password';
+              }
+        }
           return user;
     }
 

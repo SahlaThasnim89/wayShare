@@ -14,20 +14,19 @@ const userSchema=new Schema<IUser>({
     },
     password: { 
         type: String, 
-        required: true 
+        // required: true
     },
     mobile:{
         type: String, 
-        required: true  
     },
     googleId: { type: String, unique: true, sparse: true },
-    // image:{
-    //     type:String
-    // },
+    image:{
+        type:String
+    },
     isBlocked:{
         type: Boolean, 
         default: false,
-        required: true  
+        required:true
     }
 },{
         timestamps:true,

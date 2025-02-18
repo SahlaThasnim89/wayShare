@@ -5,12 +5,18 @@ import { Response } from 'express';
 
 
 export const generateToken=(res:Response,user:IUser|any):any=>{
+    console.log(user,'user')
+    console.log(user.name,'user')
+    console.log(user._id,'user')
+    console.log(user.email,'user')
+    const secretKey  = environment.jwtSecret;
     const payload={
         id:user._id,
         name:user.name,
         email:user.email
     }
-    const token = jwt.sign(payload, environment.jwtSecret || 'secret', {
+    console.log(payload,'uyguuyuyui')
+    const token = jwt.sign(payload, secretKey, {
         expiresIn: '30d'
     });
 

@@ -14,7 +14,7 @@ export const registerSchema = z
       .regex(/^\d{10}$/, { message: "Mobile number must be 10 digits" }),
     password: z
       .string()
-      .min(6, { message: "Password must be at least 6 characters long" }),
+      .min(6, { message: "Password must be at least 6 characters" }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -22,7 +22,7 @@ export const registerSchema = z
     path: ["confirmPassword"],
   });
 
-
+export type TRegisterSchema = z.infer<typeof registerSchema>;
 
   
 

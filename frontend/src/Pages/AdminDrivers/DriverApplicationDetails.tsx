@@ -1,4 +1,4 @@
-import { Header, Footer, DataCards } from "../components/index";
+import { Header, Footer, DataCards } from "../../components/index";
 import { Link } from "react-router-dom";
 import { AdminSidebar } from "@/components/admin-sidebar";
 import {
@@ -18,7 +18,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { RiUser2Fill } from "react-icons/ri";
-import { profileimg } from "../assets/index";
+import { profileimg } from "../../assets/index";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 

@@ -9,7 +9,6 @@ export class GetUserProfile{
 
     async execute(userId:string){
         const user=await this.userRepository.findById(userId)
-
         if(!user){
             throw new Error('User not found')
         }
@@ -18,7 +17,8 @@ export class GetUserProfile{
             _id: user._id,
             name: user.name,
             email: user.email,
-            // image: user.image,
+            mobile:user.mobile,
+            image: user.image,
             // createdTime: user.createdAt,
             isBlocked: user.isBlocked,
         };

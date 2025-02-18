@@ -1,4 +1,4 @@
-import { Header, Footer, RideInput, RideButton } from "../components/index";
+import { Header, Footer, RideInput, RideButton } from "../../components/index";
 import Image from "../assets/login-img.png";
 import { Link } from "react-router-dom";
 import { FaClock, FaMapPin, FaRegCircle, FaRegSquare } from "react-icons/fa";

@@ -3,11 +3,12 @@ import {Document} from 'mongoose'
 export interface IUser extends Document {
     name: string;
     email: string;
-    password: string;
+    password?: string;
     mobile: string;
     isBlocked: boolean;
     googleId: string,
-    // image:string;
+    image:string;
+    currentPassword:string,
+    userId:string;
     matchPassword: (password: string) => Promise<boolean>;
-    // matchPassword?:(password:string)=>Promise<boolean>;
 }

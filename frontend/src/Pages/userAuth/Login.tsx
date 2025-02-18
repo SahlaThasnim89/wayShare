@@ -97,7 +97,7 @@ const Login = () => {
             <h1 className="text-center font-bold pb-11 text-2xl">
               Login to Your Account
             </h1>
-            <div className="flex justify-center text-center font-bold pb-11 text-2xl">
+            <div className="flex justify-center text-center font-bold border border-green-600 bg-white  hover:bg-green-100">
       <GoogleLogin onSuccess={googleLogin} onError={() => toast("Login failed")} />
     </div>
             <p className="text-center">
@@ -108,14 +108,14 @@ const Login = () => {
               </span>
               </Link>
             </p>
-            <form onSubmit={handleSubmit(onSubmit,errHandler)} className="flex flex-col gap-4">
+            <form onSubmit={handleSubmit(onSubmit,errHandler)} className="flex flex-col gap-3">
               <InputField
                 label="Email"
                 type="email"
                 id="email"
                 placeholder="Enter your email"
                 {...register('email')}
-                className="border border-green-600 rounded px-2 py-1"
+                className="border border-green-600 px-2 py-2 hover:bg-green-100"
                
               />
               <InputField
@@ -123,11 +123,11 @@ const Login = () => {
                 type="password"
                 id="password"
                 placeholder="Enter password"
-                className="border border-green-600 rounded px-2 py-1"
+                className="border border-green-600 px-2 py-2  hover:bg-green-100"
                 {...register('password')}
               />
                <Link to='/forgetPassword'> 
-                            <p className="text-end">Forget password</p>
+                            <p className="text-end text-green-600 font-semibold">Forget password</p>
                             </Link>
 
               <GreenButton>Login</GreenButton>

@@ -3,14 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import Image from "../../assets/login-img.png";
 import { Header, Footer, InputField, GreenButton } from "../../components/index";
 import { useForm } from "react-hook-form";
-import { registerSchema } from "@/lib/RegisterTypes";
+import { registerSchema,TRegisterSchema } from "@/lib/RegisterTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import axios from "axios";
 import { login,selectUser } from "../../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-// import { register } from "@/API/user";
+import { register } from "@/API/user";
 
 
 
@@ -19,7 +19,7 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(registerSchema) });
+  } = useForm<TRegisterSchema>({ resolver: zodResolver(registerSchema) });
 
 
   const user=useSelector(selectUser)
@@ -37,7 +37,7 @@ const Register = () => {
     try {
       navigate('/otp')  
       const res = await axios.post("/api/register", data);
-      console.log(res.data)
+      console.log(res)
       localStorage.setItem("email", data.email);
     } catch (error: any) {
       console.log(error.message);
@@ -46,16 +46,6 @@ const Register = () => {
   };
 
   
-
-  // const errhandler = (e: unknown) => {
-  //   const error = e as { message: string }[];
-  //   Object.values(error)
-  //     .reverse()
-  //     .forEach((err) => {
-  //       console.log(err.message);
-  //       toast(err.message);
-  //     });
-  // };
 
 
   const googleLogin=async(res:any):Promise<void>=>{
@@ -108,7 +98,7 @@ const Register = () => {
                 id="name"
                 placeholder="Enter your name"
                 {...register("name")}
-                className={`px-2 py-1 ${
+                className={`border rounded px-2 py-1 ${
                   errors.name ? "border-red-600" : "border-green-600"
                 }`}
               />

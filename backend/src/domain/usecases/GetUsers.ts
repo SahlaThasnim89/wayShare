@@ -1,6 +1,9 @@
 import { IUserRepository } from "../repositories/UserRepository";
+import { IUser } from './../entities/User';
+import { IAdminService } from './../../application/interfaces/AdminService';
 
-export class getUserUseCase{
+
+export class GetUserUseCase {
     private userRepository:IUserRepository;
 
     constructor (userRepository:IUserRepository){

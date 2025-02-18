@@ -171,9 +171,9 @@ const Header = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <Link to='/Profile'>
+                  <Link to='/Overview'>
                   <DropdownMenuItem>
-                    My Account
+                    Manage Account
                   </DropdownMenuItem>
                   </Link>
                   

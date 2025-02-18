@@ -11,14 +11,16 @@ export function AppSidebar({ menuItems }) {
         <ul>
           {menuItems.map((item, index) => (
             <li key={index}>
-              <Link to={item.link}>
-                <a className="block py-2 px-4 rounded hover:bg-green-50">
-                  {item.name}
-                  {item.count !== undefined && (
-                    <span className="ml-2 text-sm text-red-500">{item.count}</span>
-                  )}
-                </a>
-              </Link>
+            
+                    <Link
+        to={item.link}
+        className="block py-2 px-4 hover:bg-green-50 focus:bg-green-50"
+      >
+        {item.name}
+        {item.count !== undefined && (
+          <span className="ml-2 text-sm text-red-500">{item.count}</span>
+        )}
+      </Link>
             </li>
           ))}
         </ul>

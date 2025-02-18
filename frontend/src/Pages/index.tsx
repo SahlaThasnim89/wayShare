@@ -5,22 +5,25 @@ import Login from "./userAuth/Login";
 import ForgetPassword from "./userAuth/forgetPassword";
 import ResetPassword from "./userAuth/resetPassword";
 
+import Overview from "./userProfile/Overview";
 import UserProfile from "./userProfile/UserProfile";
+import ChangePassword from "./userProfile/changePassword";
+
 import EditProfile from "./userProfile/EditProfile";
 
-import FindARide from "./FindARide";
+import FindARide from "./UserRide/FindARide";
 
 
-import DriverHome from "./DriverHome";
-import DriverApplication from './DriverApplication'
+import DriverHome from "./driver/DriverHome";
+import DriverApplication from './driver/DriverApplication'
 
 import AdminLogin from "./AdminAuth/AdminLogin";
-import AdminDashbrd from './AdminDashbrd';
-import UserList from "./UserList";
-import DriversList from "./DriversList";
-import DriverRequests from "./DriverRequests";
-import DriverApplicationDetails from "./DriverApplicationDetails";
-import RidesList from "./RidesList";
+import AdminDashbrd from './adminPages/AdminDashbrd';
+import UserList from "./AdminUsers/UserList";
+import DriversList from "./AdminDrivers/DriversList";
+import DriverRequests from "./AdminDrivers/DriverRequests";
+import DriverApplicationDetails from "./AdminDrivers/DriverApplicationDetails";
+import RidesList from "./AdminRides/RidesList";
 export{
     
     //UserSide
@@ -31,7 +34,9 @@ export{
     ForgetPassword,
     ResetPassword,
 
+    Overview,
     UserProfile,
+    ChangePassword,
     EditProfile,
 
 
